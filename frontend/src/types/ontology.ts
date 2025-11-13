@@ -82,6 +82,47 @@ export interface Narrative {
   timestamp?: string; // ISO 8601 format
 }
 
+// VANTAGE-PK (Logistics & Readiness) Data Models
+
+export interface PersonnelData {
+  id: string;
+  unit_id: string;
+  unit_name: string;
+  branch: "Army" | "Air Force" | "Navy" | "ISI";
+  total_personnel: number;
+  trained_drivers: number;
+  on_leave: number;
+  fit_for_duty_pct: number;
+  last_updated: string; // ISO 8601 format
+}
+
+export interface LogisticsData {
+  id: string;
+  unit_id: string;
+  unit_name: string;
+  ammo_125mm_rounds: number;
+  ammo_125mm_capacity: number;
+  ammo_120mm_rounds: number;
+  ammo_120mm_capacity: number;
+  fuel_liters: number;
+  fuel_capacity: number;
+  rations_days: number;
+  last_updated: string; // ISO 8601 format
+}
+
+export interface EquipmentData {
+  id: string;
+  unit_id: string;
+  unit_name: string;
+  branch: "Army" | "Air Force" | "Navy";
+  asset_type: string; // e.g., "Al-Khalid Tank", "JF-17 Thunder", "F-22P Frigate"
+  total_count: number;
+  operational_count: number;
+  maintenance_count: number;
+  operational_pct: number;
+  last_updated: string; // ISO 8601 format
+}
+
 // Layer types for the map
 export type LayerType = 'ISRFeeds' | 'IntelReports' | 'EnemyUnits' | 'Assets' | 'HistoricalAttacks';
 

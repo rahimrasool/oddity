@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import { generateMockTracks, generateMockIntelReports } from './mockData';
+import { generatePersonnelData, generateLogisticsData, generateEquipmentData } from './vantageData';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -62,6 +63,40 @@ app.get('/api/v1/intel_reports', (req: Request, res: Response) => {
 });
 
 /**
+ * VANTAGE-PK Endpoints (Simulating separate data silos)
+ */
+
+/**
+ * GET /api/vantage/db_personnel
+ * Simulates HR system - returns personnel data
+ */
+app.get('/api/vantage/db_personnel', (req: Request, res: Response) => {
+  const personnel = generatePersonnelData();
+  console.log(`[VANTAGE] Serving personnel data: ${personnel.length} records`);
+  res.json(personnel);
+});
+
+/**
+ * GET /api/vantage/db_logistics
+ * Simulates inventory system - returns ammo/fuel data
+ */
+app.get('/api/vantage/db_logistics', (req: Request, res: Response) => {
+  const logistics = generateLogisticsData();
+  console.log(`[VANTAGE] Serving logistics data: ${logistics.length} records`);
+  res.json(logistics);
+});
+
+/**
+ * GET /api/vantage/db_equipment
+ * Simulates maintenance system - returns equipment status data
+ */
+app.get('/api/vantage/db_equipment', (req: Request, res: Response) => {
+  const equipment = generateEquipmentData();
+  console.log(`[VANTAGE] Serving equipment data: ${equipment.length} records`);
+  res.json(equipment);
+});
+
+/**
  * Health check endpoint
  */
 app.get('/health', (req: Request, res: Response) => {
@@ -73,4 +108,7 @@ app.listen(PORT, () => {
   console.log(`Mil-OS Backend API running on port ${PORT}`);
   console.log(`Tracks stream: http://localhost:${PORT}/api/v1/tracks`);
   console.log(`Intel reports: http://localhost:${PORT}/api/v1/intel_reports`);
+  console.log(`VANTAGE Personnel: http://localhost:${PORT}/api/vantage/db_personnel`);
+  console.log(`VANTAGE Logistics: http://localhost:${PORT}/api/vantage/db_logistics`);
+  console.log(`VANTAGE Equipment: http://localhost:${PORT}/api/vantage/db_equipment`);
 });

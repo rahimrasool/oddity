@@ -4,6 +4,7 @@ import type { ModuleType } from '../types/ontology';
 import { LeftNavigation } from './LeftNavigation';
 import { TopBar } from './TopBar';
 import { Singularity } from './modules/Singularity';
+import { VantagePK } from './modules/VantagePK';
 
 export function CarbonShell() {
   const [activeModule, setActiveModule] = useState<ModuleType>('singularity');
@@ -13,7 +14,7 @@ export function CarbonShell() {
       case 'singularity':
         return <Singularity />;
       case 'guardian':
-        return <Box p="xl">GUARDIAN Module - Coming Soon</Box>;
+        return <VantagePK />;
       case 'prophet':
         return <Box p="xl">PROPHET Module - Coming Soon</Box>;
       case 'nexus':

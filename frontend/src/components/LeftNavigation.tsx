@@ -32,8 +32,8 @@ export function LeftNavigation({ activeModule, onModuleChange }: LeftNavigationP
     {
       id: 'guardian',
       icon: <IconShield size={24} />,
-      label: 'GUARDIAN',
-      description: 'Force Protection & Asset Tracker',
+      label: 'VANTAGE-PK',
+      description: 'Joint Readiness & Logistics Command',
     },
     {
       id: 'prophet',
