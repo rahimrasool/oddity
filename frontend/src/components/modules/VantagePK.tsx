@@ -91,7 +91,15 @@ export function VantagePK() {
   }
 
   return (
-    <Box style={{ position: 'relative', width: '100%', height: '100%', overflow: 'auto', padding: '20px' }}>
+    <Box
+      style={{
+        width: '100%',
+        height: '100%',
+        overflow: 'auto',
+        padding: '20px',
+        boxSizing: 'border-box',
+      }}
+    >
       <LoadingOverlay visible={loading} />
 
       {/* Header */}
@@ -107,7 +115,7 @@ export function VantagePK() {
       {/* Dashboard Grid */}
       <Grid gutter="lg">
         {/* Widget 1: Joint Asset Readiness */}
-        <Grid.Col span={4}>
+        <Grid.Col span={{ base: 12, md: 4 }}>
           <JointReadinessWidget
             equipmentData={equipmentData}
             onBranchSelect={handleBranchSelect}
@@ -116,7 +124,7 @@ export function VantagePK() {
         </Grid.Col>
 
         {/* Widget 2: Personnel Status */}
-        <Grid.Col span={8}>
+        <Grid.Col span={{ base: 12, md: 8 }}>
           <PersonnelStatusWidget
             personnelData={personnelData}
             equipmentData={equipmentData}
