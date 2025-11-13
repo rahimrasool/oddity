@@ -2,6 +2,16 @@
 
 A high-fidelity, interactive web application prototype for a "Military Operating System (Mil-OS)" featuring a dark mode aesthetic suitable for 24/7 command center operations. This application serves as a "single pane of glass" integrating multiple operational modules.
 
+---
+
+## 🚀 Quick Start
+
+**Map not showing?** → See **[QUICKSTART.md](./QUICKSTART.md)** for a 2-minute fix!
+
+The issue is likely the Mapbox token needs to be configured in `frontend/.env`.
+
+---
+
 ## Features
 
 ### Current Implementation (Step 0 & Step 1)

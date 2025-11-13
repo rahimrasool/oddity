@@ -22,6 +22,7 @@ export function MapComponent({
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
+  const [mapError, setMapError] = useState<string | null>(null);
   const [intelData, setIntelData] = useState<any>(null);
   const [trackData, setTrackData] = useState<{ isrFeeds: ISRFeed[]; assetAir: AssetAir[] } | null>(null);
   const markersRef = useRef<{ [key: string]: mapboxgl.Marker }>({});
@@ -31,23 +32,39 @@ export function MapComponent({
   useEffect(() => {
     if (!mapContainer.current || map.current) return;
 
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/satellite-streets-v12',
-      center: [70.5, 33.5], // Pakistan-Afghanistan border region
-      zoom: 8,
-      pitch: 0,
-      bearing: 0,
-    });
+    // Check for valid Mapbox token
+    if (!MAPBOX_TOKEN || MAPBOX_TOKEN.includes('demo_token') || MAPBOX_TOKEN.includes('replace_with_your_own')) {
+      setMapError('MAPBOX_TOKEN_MISSING');
+      return;
+    }
 
-    map.current.on('load', () => {
-      setMapLoaded(true);
-      console.log('Map loaded');
-    });
+    try {
+      map.current = new mapboxgl.Map({
+        container: mapContainer.current,
+        style: 'mapbox://styles/mapbox/satellite-streets-v12',
+        center: [70.5, 33.5], // Pakistan-Afghanistan border region
+        zoom: 8,
+        pitch: 0,
+        bearing: 0,
+      });
 
-    // Add navigation controls
-    map.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
-    map.current.addControl(new mapboxgl.ScaleControl(), 'bottom-right');
+      map.current.on('load', () => {
+        setMapLoaded(true);
+        console.log('Map loaded successfully');
+      });
+
+      map.current.on('error', (e) => {
+        console.error('Map error:', e);
+        setMapError('MAP_LOAD_ERROR');
+      });
+
+      // Add navigation controls
+      map.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
+      map.current.addControl(new mapboxgl.ScaleControl(), 'bottom-right');
+    } catch (error) {
+      console.error('Error initializing map:', error);
+      setMapError('MAP_INIT_ERROR');
+    }
 
     return () => {
       if (eventSourceRef.current) {
@@ -235,6 +252,83 @@ export function MapComponent({
       }
     }
   }, [trackData, selectedLayers, mapLoaded, onISRFeedClick]);
+
+  // Error display component
+  if (mapError) {
+    return (
+      <div
+        style={{
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: '#0a0a0a',
+          color: '#ffffff',
+        }}
+      >
+        <div
+          style={{
+            maxWidth: '600px',
+            padding: '40px',
+            background: '#1a1a1a',
+            border: '2px solid #ff4444',
+            borderRadius: '12px',
+            textAlign: 'center',
+          }}
+        >
+          <div style={{ fontSize: '48px', marginBottom: '20px' }}>⚠️</div>
+          <h2 style={{ marginBottom: '16px', color: '#ff4444' }}>Map Configuration Error</h2>
+
+          {mapError === 'MAPBOX_TOKEN_MISSING' && (
+            <>
+              <p style={{ marginBottom: '20px', lineHeight: '1.6' }}>
+                Mapbox access token is missing or invalid. Please follow these steps:
+              </p>
+              <div style={{ textAlign: 'left', background: '#0a0a0a', padding: '20px', borderRadius: '8px', marginBottom: '20px' }}>
+                <p style={{ marginBottom: '12px' }}><strong>1. Get a FREE Mapbox token:</strong></p>
+                <p style={{ marginBottom: '16px', paddingLeft: '20px' }}>
+                  Visit <a href="https://account.mapbox.com/" target="_blank" rel="noopener noreferrer" style={{ color: '#2a7fff' }}>https://account.mapbox.com/</a>
+                  <br />Create an account or sign in
+                  <br />Copy your default public token
+                </p>
+
+                <p style={{ marginBottom: '12px' }}><strong>2. Update your .env file:</strong></p>
+                <p style={{ marginBottom: '16px', paddingLeft: '20px' }}>
+                  Open <code style={{ background: '#262626', padding: '2px 6px', borderRadius: '4px' }}>frontend/.env</code>
+                  <br />Replace the placeholder token with your actual token
+                </p>
+
+                <p style={{ marginBottom: '12px' }}><strong>3. Restart the dev server:</strong></p>
+                <p style={{ paddingLeft: '20px' }}>
+                  Stop the frontend server (Ctrl+C)
+                  <br />Run <code style={{ background: '#262626', padding: '2px 6px', borderRadius: '4px' }}>npm run dev</code> again
+                </p>
+              </div>
+              <p style={{ fontSize: '14px', color: '#a0a0a0' }}>
+                Current token: <code style={{ background: '#262626', padding: '4px 8px', borderRadius: '4px' }}>
+                  {MAPBOX_TOKEN || 'undefined'}
+                </code>
+              </p>
+            </>
+          )}
+
+          {mapError === 'MAP_LOAD_ERROR' && (
+            <p style={{ lineHeight: '1.6' }}>
+              Failed to load the map. Please check your internet connection and ensure your Mapbox token is valid.
+              <br />Check the browser console for more details.
+            </p>
+          )}
+
+          {mapError === 'MAP_INIT_ERROR' && (
+            <p style={{ lineHeight: '1.6' }}>
+              Failed to initialize the map component. Please check the browser console for more details.
+            </p>
+          )}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
