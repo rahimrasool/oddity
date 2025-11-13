@@ -296,143 +296,9 @@ export function MapComponent({
     }
   }, [trackData, selectedLayers, mapLoaded, onISRFeedClick]);
 
-  // Loading display component
-  if (!mapLoaded && !mapError) {
-    return (
-      <div
-        style={{
-          width: '100%',
-          height: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          background: '#0a0a0a',
-          color: '#ffffff',
-        }}
-      >
-        <div style={{ textAlign: 'center' }}>
-          <div
-            style={{
-              width: '60px',
-              height: '60px',
-              border: '4px solid #2a2a2a',
-              borderTop: '4px solid #2a7fff',
-              borderRadius: '50%',
-              animation: 'spin 1s linear infinite',
-              margin: '0 auto 20px',
-            }}
-          />
-          <div style={{ fontSize: '18px', marginBottom: '8px' }}>Loading Map</div>
-          <div style={{ fontSize: '14px', color: '#a0a0a0' }}>{loadingStatus}</div>
-          <style>{`
-            @keyframes spin {
-              0% { transform: rotate(0deg); }
-              100% { transform: rotate(360deg); }
-            }
-          `}</style>
-        </div>
-      </div>
-    );
-  }
-
-  // Error display component
-  if (mapError) {
-    return (
-      <div
-        style={{
-          width: '100%',
-          height: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          background: '#0a0a0a',
-          color: '#ffffff',
-        }}
-      >
-        <div
-          style={{
-            maxWidth: '600px',
-            padding: '40px',
-            background: '#1a1a1a',
-            border: '2px solid #ff4444',
-            borderRadius: '12px',
-            textAlign: 'center',
-          }}
-        >
-          <div style={{ fontSize: '48px', marginBottom: '20px' }}>⚠️</div>
-          <h2 style={{ marginBottom: '16px', color: '#ff4444' }}>Map Configuration Error</h2>
-
-          {mapError === 'MAPBOX_TOKEN_MISSING' && (
-            <>
-              <p style={{ marginBottom: '20px', lineHeight: '1.6' }}>
-                Mapbox access token is missing or invalid. Please follow these steps:
-              </p>
-              <div style={{ textAlign: 'left', background: '#0a0a0a', padding: '20px', borderRadius: '8px', marginBottom: '20px' }}>
-                <p style={{ marginBottom: '12px' }}><strong>1. Get a FREE Mapbox token:</strong></p>
-                <p style={{ marginBottom: '16px', paddingLeft: '20px' }}>
-                  Visit <a href="https://account.mapbox.com/" target="_blank" rel="noopener noreferrer" style={{ color: '#2a7fff' }}>https://account.mapbox.com/</a>
-                  <br />Create an account or sign in
-                  <br />Copy your default public token
-                </p>
-
-                <p style={{ marginBottom: '12px' }}><strong>2. Update your .env file:</strong></p>
-                <p style={{ marginBottom: '16px', paddingLeft: '20px' }}>
-                  Open <code style={{ background: '#262626', padding: '2px 6px', borderRadius: '4px' }}>frontend/.env</code>
-                  <br />Replace the placeholder token with your actual token
-                </p>
-
-                <p style={{ marginBottom: '12px' }}><strong>3. Restart the dev server:</strong></p>
-                <p style={{ paddingLeft: '20px' }}>
-                  Stop the frontend server (Ctrl+C)
-                  <br />Run <code style={{ background: '#262626', padding: '2px 6px', borderRadius: '4px' }}>npm run dev</code> again
-                </p>
-              </div>
-              <p style={{ fontSize: '14px', color: '#a0a0a0' }}>
-                Current token: <code style={{ background: '#262626', padding: '4px 8px', borderRadius: '4px' }}>
-                  {MAPBOX_TOKEN || 'undefined'}
-                </code>
-              </p>
-            </>
-          )}
-
-          {mapError === 'MAP_LOAD_ERROR' && (
-            <>
-              <p style={{ lineHeight: '1.6', marginBottom: '20px' }}>
-                Failed to load the map. Please check your internet connection and ensure your Mapbox token is valid.
-              </p>
-              <div style={{ background: '#0a0a0a', padding: '20px', borderRadius: '8px', marginBottom: '20px' }}>
-                <p style={{ fontSize: '14px', marginBottom: '12px' }}>
-                  <strong>Status:</strong> <code style={{ background: '#262626', padding: '4px 8px', borderRadius: '4px' }}>{loadingStatus}</code>
-                </p>
-                <p style={{ fontSize: '14px', marginBottom: '12px' }}>
-                  <strong>Token prefix:</strong> <code style={{ background: '#262626', padding: '4px 8px', borderRadius: '4px' }}>{MAPBOX_TOKEN?.substring(0, 30)}...</code>
-                </p>
-                <p style={{ fontSize: '14px', color: '#a0a0a0' }}>
-                  Check the browser console (F12) for detailed error messages.
-                </p>
-              </div>
-              <p style={{ fontSize: '14px', lineHeight: '1.6' }}>
-                <strong>Common causes:</strong><br />
-                • Token has insufficient permissions<br />
-                • Token is expired or revoked<br />
-                • Network/firewall blocking Mapbox API<br />
-                • Rate limit exceeded (unlikely on free tier)
-              </p>
-            </>
-          )}
-
-          {mapError === 'MAP_INIT_ERROR' && (
-            <p style={{ lineHeight: '1.6' }}>
-              Failed to initialize the map component. Please check the browser console for more details.
-            </p>
-          )}
-        </div>
-      </div>
-    );
-  }
-
   return (
     <>
+      {/* Map container - always rendered so ref attaches */}
       <div
         ref={mapContainer}
         style={{
@@ -443,7 +309,155 @@ export function MapComponent({
           left: 0,
         }}
       />
+
+      {/* Loading overlay */}
+      {!mapLoaded && !mapError && (
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: '#0a0a0a',
+            color: '#ffffff',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            zIndex: 1000,
+          }}
+        >
+          <div style={{ textAlign: 'center' }}>
+            <div
+              style={{
+                width: '60px',
+                height: '60px',
+                border: '4px solid #2a2a2a',
+                borderTop: '4px solid #2a7fff',
+                borderRadius: '50%',
+                animation: 'spin 1s linear infinite',
+                margin: '0 auto 20px',
+              }}
+            />
+            <div style={{ fontSize: '18px', marginBottom: '8px' }}>Loading Map</div>
+            <div style={{ fontSize: '14px', color: '#a0a0a0' }}>{loadingStatus}</div>
+          </div>
+        </div>
+      )}
+
+      {/* Error overlay */}
+      {mapError && (
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: '#0a0a0a',
+            color: '#ffffff',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            zIndex: 1000,
+          }}
+        >
+          <div
+            style={{
+              maxWidth: '600px',
+              padding: '40px',
+              background: '#1a1a1a',
+              border: '2px solid #ff4444',
+              borderRadius: '12px',
+              textAlign: 'center',
+            }}
+          >
+            <div style={{ fontSize: '48px', marginBottom: '20px' }}>⚠️</div>
+            <h2 style={{ marginBottom: '16px', color: '#ff4444' }}>Map Configuration Error</h2>
+
+            {mapError === 'MAPBOX_TOKEN_MISSING' && (
+              <>
+                <p style={{ marginBottom: '20px', lineHeight: '1.6' }}>
+                  Mapbox access token is missing or invalid. Please follow these steps:
+                </p>
+                <div style={{ textAlign: 'left', background: '#0a0a0a', padding: '20px', borderRadius: '8px', marginBottom: '20px' }}>
+                  <p style={{ marginBottom: '12px' }}><strong>1. Get a FREE Mapbox token:</strong></p>
+                  <p style={{ marginBottom: '16px', paddingLeft: '20px' }}>
+                    Visit <a href="https://account.mapbox.com/" target="_blank" rel="noopener noreferrer" style={{ color: '#2a7fff' }}>https://account.mapbox.com/</a>
+                    <br />Create an account or sign in
+                    <br />Copy your default public token
+                  </p>
+
+                  <p style={{ marginBottom: '12px' }}><strong>2. Update your .env file:</strong></p>
+                  <p style={{ marginBottom: '16px', paddingLeft: '20px' }}>
+                    Open <code style={{ background: '#262626', padding: '2px 6px', borderRadius: '4px' }}>frontend/.env</code>
+                    <br />Replace the placeholder token with your actual token
+                  </p>
+
+                  <p style={{ marginBottom: '12px' }}><strong>3. Restart the dev server:</strong></p>
+                  <p style={{ paddingLeft: '20px' }}>
+                    Stop the frontend server (Ctrl+C)
+                    <br />Run <code style={{ background: '#262626', padding: '2px 6px', borderRadius: '4px' }}>npm run dev</code> again
+                  </p>
+                </div>
+                <p style={{ fontSize: '14px', color: '#a0a0a0' }}>
+                  Current token: <code style={{ background: '#262626', padding: '4px 8px', borderRadius: '4px' }}>
+                    {MAPBOX_TOKEN || 'undefined'}
+                  </code>
+                </p>
+              </>
+            )}
+
+            {mapError === 'MAP_LOAD_ERROR' && (
+              <>
+                <p style={{ lineHeight: '1.6', marginBottom: '20px' }}>
+                  Failed to load the map. Please check your internet connection and ensure your Mapbox token is valid.
+                </p>
+                <div style={{ background: '#0a0a0a', padding: '20px', borderRadius: '8px', marginBottom: '20px' }}>
+                  <p style={{ fontSize: '14px', marginBottom: '12px' }}>
+                    <strong>Status:</strong> <code style={{ background: '#262626', padding: '4px 8px', borderRadius: '4px' }}>{loadingStatus}</code>
+                  </p>
+                  <p style={{ fontSize: '14px', marginBottom: '12px' }}>
+                    <strong>Token prefix:</strong> <code style={{ background: '#262626', padding: '4px 8px', borderRadius: '4px' }}>{MAPBOX_TOKEN?.substring(0, 30)}...</code>
+                  </p>
+                  <p style={{ fontSize: '14px', color: '#a0a0a0' }}>
+                    Check the browser console (F12) for detailed error messages.
+                  </p>
+                </div>
+                <p style={{ fontSize: '14px', lineHeight: '1.6' }}>
+                  <strong>Common causes:</strong><br />
+                  • Token has insufficient permissions<br />
+                  • Token is expired or revoked<br />
+                  • Network/firewall blocking Mapbox API<br />
+                  • Rate limit exceeded (unlikely on free tier)
+                </p>
+              </>
+            )}
+
+            {mapError === 'MAP_INIT_ERROR' && (
+              <>
+                <p style={{ lineHeight: '1.6', marginBottom: '20px' }}>
+                  Failed to initialize the map component.
+                </p>
+                <div style={{ background: '#0a0a0a', padding: '20px', borderRadius: '8px', marginBottom: '20px', textAlign: 'left' }}>
+                  <p style={{ fontSize: '14px', marginBottom: '12px' }}>
+                    <strong>Status:</strong> <code style={{ background: '#262626', padding: '4px 8px', borderRadius: '4px' }}>{loadingStatus}</code>
+                  </p>
+                  <p style={{ fontSize: '14px', color: '#a0a0a0' }}>
+                    Check the browser console (F12) for detailed error messages.
+                  </p>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+
       <style>{`
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
         @keyframes pulse {
           0%, 100% {
             box-shadow: 0 2px 8px rgba(0,200,255,0.6);
