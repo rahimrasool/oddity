@@ -23,6 +23,7 @@ export function MapComponent({
   const map = useRef<mapboxgl.Map | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
   const [mapError, setMapError] = useState<string | null>(null);
+  const [loadingStatus, setLoadingStatus] = useState<string>('Initializing...');
   const [intelData, setIntelData] = useState<any>(null);
   const [trackData, setTrackData] = useState<{ isrFeeds: ISRFeed[]; assetAir: AssetAir[] } | null>(null);
   const markersRef = useRef<{ [key: string]: mapboxgl.Marker }>({});
@@ -32,11 +33,18 @@ export function MapComponent({
   useEffect(() => {
     if (!mapContainer.current || map.current) return;
 
+    console.log('[MapComponent] Initializing with token:', MAPBOX_TOKEN?.substring(0, 20) + '...');
+    setLoadingStatus('Checking token...');
+
     // Check for valid Mapbox token
     if (!MAPBOX_TOKEN || MAPBOX_TOKEN.includes('demo_token') || MAPBOX_TOKEN.includes('replace_with_your_own')) {
+      console.error('[MapComponent] Invalid token detected');
       setMapError('MAPBOX_TOKEN_MISSING');
       return;
     }
+
+    setLoadingStatus('Creating map instance...');
+    console.log('[MapComponent] Token validation passed, creating map...');
 
     try {
       map.current = new mapboxgl.Map({
@@ -48,22 +56,28 @@ export function MapComponent({
         bearing: 0,
       });
 
+      console.log('[MapComponent] Map instance created, waiting for load event...');
+      setLoadingStatus('Loading map tiles...');
+
       map.current.on('load', () => {
         setMapLoaded(true);
-        console.log('Map loaded successfully');
+        console.log('[MapComponent] Map loaded successfully!');
+        setLoadingStatus('Map loaded!');
       });
 
       map.current.on('error', (e) => {
-        console.error('Map error:', e);
+        console.error('[MapComponent] Map error:', e);
         setMapError('MAP_LOAD_ERROR');
+        setLoadingStatus('Error: ' + (e.error?.message || 'Unknown error'));
       });
 
       // Add navigation controls
       map.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
       map.current.addControl(new mapboxgl.ScaleControl(), 'bottom-right');
     } catch (error) {
-      console.error('Error initializing map:', error);
+      console.error('[MapComponent] Error initializing map:', error);
       setMapError('MAP_INIT_ERROR');
+      setLoadingStatus('Initialization failed: ' + (error as Error).message);
     }
 
     return () => {
@@ -253,6 +267,45 @@ export function MapComponent({
     }
   }, [trackData, selectedLayers, mapLoaded, onISRFeedClick]);
 
+  // Loading display component
+  if (!mapLoaded && !mapError) {
+    return (
+      <div
+        style={{
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: '#0a0a0a',
+          color: '#ffffff',
+        }}
+      >
+        <div style={{ textAlign: 'center' }}>
+          <div
+            style={{
+              width: '60px',
+              height: '60px',
+              border: '4px solid #2a2a2a',
+              borderTop: '4px solid #2a7fff',
+              borderRadius: '50%',
+              animation: 'spin 1s linear infinite',
+              margin: '0 auto 20px',
+            }}
+          />
+          <div style={{ fontSize: '18px', marginBottom: '8px' }}>Loading Map</div>
+          <div style={{ fontSize: '14px', color: '#a0a0a0' }}>{loadingStatus}</div>
+          <style>{`
+            @keyframes spin {
+              0% { transform: rotate(0deg); }
+              100% { transform: rotate(360deg); }
+            }
+          `}</style>
+        </div>
+      </div>
+    );
+  }
+
   // Error display component
   if (mapError) {
     return (
@@ -314,10 +367,29 @@ export function MapComponent({
           )}
 
           {mapError === 'MAP_LOAD_ERROR' && (
-            <p style={{ lineHeight: '1.6' }}>
-              Failed to load the map. Please check your internet connection and ensure your Mapbox token is valid.
-              <br />Check the browser console for more details.
-            </p>
+            <>
+              <p style={{ lineHeight: '1.6', marginBottom: '20px' }}>
+                Failed to load the map. Please check your internet connection and ensure your Mapbox token is valid.
+              </p>
+              <div style={{ background: '#0a0a0a', padding: '20px', borderRadius: '8px', marginBottom: '20px' }}>
+                <p style={{ fontSize: '14px', marginBottom: '12px' }}>
+                  <strong>Status:</strong> <code style={{ background: '#262626', padding: '4px 8px', borderRadius: '4px' }}>{loadingStatus}</code>
+                </p>
+                <p style={{ fontSize: '14px', marginBottom: '12px' }}>
+                  <strong>Token prefix:</strong> <code style={{ background: '#262626', padding: '4px 8px', borderRadius: '4px' }}>{MAPBOX_TOKEN?.substring(0, 30)}...</code>
+                </p>
+                <p style={{ fontSize: '14px', color: '#a0a0a0' }}>
+                  Check the browser console (F12) for detailed error messages.
+                </p>
+              </div>
+              <p style={{ fontSize: '14px', lineHeight: '1.6' }}>
+                <strong>Common causes:</strong><br />
+                • Token has insufficient permissions<br />
+                • Token is expired or revoked<br />
+                • Network/firewall blocking Mapbox API<br />
+                • Rate limit exceeded (unlikely on free tier)
+              </p>
+            </>
           )}
 
           {mapError === 'MAP_INIT_ERROR' && (
