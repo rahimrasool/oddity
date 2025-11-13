@@ -12,9 +12,10 @@ const theme = createTheme({
 });
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
+  // StrictMode temporarily disabled for Mapbox GL compatibility
+  // <StrictMode>
     <MantineProvider theme={theme} defaultColorScheme="dark">
       <App />
     </MantineProvider>
-  </StrictMode>,
+  // </StrictMode>,
 )

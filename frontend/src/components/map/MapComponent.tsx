@@ -31,7 +31,23 @@ export function MapComponent({
 
   // Initialize map
   useEffect(() => {
-    if (!mapContainer.current || map.current) return;
+    console.log('[MapComponent] useEffect triggered');
+    console.log('[MapComponent] mapContainer.current:', mapContainer.current);
+    console.log('[MapComponent] map.current:', map.current);
+    console.log('[MapComponent] mapboxgl version:', mapboxgl.version);
+    console.log('[MapComponent] mapboxgl.supported():', mapboxgl.supported());
+
+    if (!mapContainer.current) {
+      console.error('[MapComponent] mapContainer.current is null! Ref not attached.');
+      setLoadingStatus('Error: Map container not found');
+      setMapError('MAP_INIT_ERROR');
+      return;
+    }
+
+    if (map.current) {
+      console.log('[MapComponent] Map already exists, skipping initialization');
+      return;
+    }
 
     console.log('[MapComponent] Initializing with token:', MAPBOX_TOKEN?.substring(0, 20) + '...');
     setLoadingStatus('Checking token...');
@@ -40,6 +56,14 @@ export function MapComponent({
     if (!MAPBOX_TOKEN || MAPBOX_TOKEN.includes('demo_token') || MAPBOX_TOKEN.includes('replace_with_your_own')) {
       console.error('[MapComponent] Invalid token detected');
       setMapError('MAPBOX_TOKEN_MISSING');
+      return;
+    }
+
+    // Check if Mapbox GL is supported
+    if (!mapboxgl.supported()) {
+      console.error('[MapComponent] Mapbox GL is not supported in this browser');
+      setMapError('MAP_INIT_ERROR');
+      setLoadingStatus('Browser not supported');
       return;
     }
 
@@ -81,10 +105,15 @@ export function MapComponent({
     }
 
     return () => {
+      console.log('[MapComponent] Cleanup function called');
       if (eventSourceRef.current) {
         eventSourceRef.current.close();
       }
-      map.current?.remove();
+      if (map.current) {
+        console.log('[MapComponent] Removing map instance');
+        map.current.remove();
+        map.current = null;
+      }
     };
   }, []);
 
