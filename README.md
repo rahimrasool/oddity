@@ -8,6 +8,8 @@ A high-fidelity, interactive web application prototype for a "Military Operating
 
 **Map not showing?** → See **[QUICKSTART.md](./QUICKSTART.md)** for a 2-minute fix!
 
+**🧪 Test your token:** Open `test-mapbox-token.html` in your browser to verify your Mapbox token works before configuring the app.
+
 The issue is likely the Mapbox token needs to be configured in `frontend/.env`.
 
 ---

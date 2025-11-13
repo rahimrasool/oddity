@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapbox Token Test - Mil-OS</title>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, #2a7fff 0%, #00d4ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .instructions {
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #a0a0a0;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            background: #0a0a0a;
+            border: 1px solid #2a2a2a;
+            border-radius: 8px;
+            color: #ffffff;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #2a7fff;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #2a7fff;
+            border: none;
+            border-radius: 8px;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background: #1967e6;
+        }
+
+        button:disabled {
+            background: #404040;
+            cursor: not-allowed;
+        }
+
+        #map {
+            width: 100%;
+            height: 400px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .status {
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 12px;
+            padding: 20px;
+            display: none;
+        }
+
+        .status.success {
+            border-color: #22c55e;
+            display: block;
+        }
+
+        .status.error {
+            border-color: #ff4444;
+            display: block;
+        }
+
+        .status-icon {
+            font-size: 48px;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .status-title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .status.success .status-title {
+            color: #22c55e;
+        }
+
+        .status.error .status-title {
+            color: #ff4444;
+        }
+
+        .status-message {
+            text-align: center;
+            line-height: 1.6;
+            color: #a0a0a0;
+        }
+
+        .help-box {
+            background: #0a0a0a;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .help-box h3 {
+            margin-bottom: 12px;
+            color: #2a7fff;
+        }
+
+        .help-box ol {
+            padding-left: 20px;
+            line-height: 1.8;
+        }
+
+        .help-box a {
+            color: #2a7fff;
+            text-decoration: none;
+        }
+
+        .help-box a:hover {
+            text-decoration: underline;
+        }
+
+        code {
+            background: #262626;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            display: none;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            border: 3px solid #2a2a2a;
+            border-top: 3px solid #2a7fff;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🗺️ Mapbox Token Tester</h1>
+
+        <div class="instructions">
+            <h2 style="margin-bottom: 16px;">Test Your Mapbox Token</h2>
+            <p style="margin-bottom: 20px; line-height: 1.6; color: #a0a0a0;">
+                This tool verifies that your Mapbox API token is valid and working.
+                Paste your token below and click "Test Token" to see if it loads a map.
+            </p>
+
+            <div class="input-group">
+                <label for="token">Mapbox Access Token</label>
+                <input
+                    type="text"
+                    id="token"
+                    placeholder="pk.eyJ1IjoieW91cnVzZXJuYW1lIiwiYSI6ImNscXh4eHh4eDAwMDB4..."
+                    autocomplete="off"
+                />
+            </div>
+
+            <button id="testBtn">Test Token</button>
+
+            <div class="help-box">
+                <h3>Don't have a token yet?</h3>
+                <ol>
+                    <li>Visit <a href="https://account.mapbox.com/" target="_blank">https://account.mapbox.com/</a></li>
+                    <li>Create a free account (no credit card required)</li>
+                    <li>Copy your "Default public token" from the dashboard</li>
+                    <li>Paste it above and click "Test Token"</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Testing token...</p>
+        </div>
+
+        <div id="map"></div>
+
+        <div class="status" id="status">
+            <div class="status-icon" id="statusIcon"></div>
+            <div class="status-title" id="statusTitle"></div>
+            <div class="status-message" id="statusMessage"></div>
+        </div>
+    </div>
+
+    <script>
+        const tokenInput = document.getElementById('token');
+        const testBtn = document.getElementById('testBtn');
+        const mapDiv = document.getElementById('map');
+        const loading = document.getElementById('loading');
+        const status = document.getElementById('status');
+        const statusIcon = document.getElementById('statusIcon');
+        const statusTitle = document.getElementById('statusTitle');
+        const statusMessage = document.getElementById('statusMessage');
+
+        let map = null;
+
+        // Load saved token from localStorage
+        const savedToken = localStorage.getItem('mapboxToken');
+        if (savedToken) {
+            tokenInput.value = savedToken;
+        }
+
+        testBtn.addEventListener('click', testToken);
+
+        // Allow Enter key to submit
+        tokenInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                testToken();
+            }
+        });
+
+        function testToken() {
+            const token = tokenInput.value.trim();
+
+            if (!token) {
+                showError('No Token Provided', 'Please paste your Mapbox token in the field above.');
+                return;
+            }
+
+            if (!token.startsWith('pk.')) {
+                showError('Invalid Token Format',
+                    'Mapbox public tokens should start with "pk.". Please check your token and try again.');
+                return;
+            }
+
+            // Save token to localStorage
+            localStorage.setItem('mapboxToken', token);
+
+            // Clear previous results
+            status.className = 'status';
+            mapDiv.style.display = 'none';
+            loading.classList.add('active');
+            testBtn.disabled = true;
+
+            // Remove existing map
+            if (map) {
+                map.remove();
+                map = null;
+            }
+
+            // Set the token
+            mapboxgl.accessToken = token;
+
+            // Try to create a map
+            try {
+                map = new mapboxgl.Map({
+                    container: 'map',
+                    style: 'mapbox://styles/mapbox/satellite-streets-v12',
+                    center: [70.5, 33.5], // Pakistan-Afghanistan border
+                    zoom: 8
+                });
+
+                map.on('load', () => {
+                    loading.classList.remove('active');
+                    mapDiv.style.display = 'block';
+                    testBtn.disabled = false;
+                    showSuccess();
+
+                    // Add navigation controls
+                    map.addControl(new mapboxgl.NavigationControl());
+                });
+
+                map.on('error', (e) => {
+                    loading.classList.remove('active');
+                    testBtn.disabled = false;
+
+                    if (e.error.status === 401) {
+                        showError('Unauthorized',
+                            'Your token is invalid or has been revoked. Please get a new token from your Mapbox dashboard.');
+                    } else {
+                        showError('Map Load Error',
+                            `Failed to load the map: ${e.error.message || 'Unknown error'}`);
+                    }
+                });
+
+            } catch (error) {
+                loading.classList.remove('active');
+                testBtn.disabled = false;
+                showError('Initialization Error',
+                    `Failed to initialize map: ${error.message}`);
+            }
+        }
+
+        function showSuccess() {
+            status.className = 'status success';
+            statusIcon.textContent = '✅';
+            statusTitle.textContent = 'Token Valid!';
+            statusMessage.innerHTML = `
+                <p style="margin-bottom: 16px;">
+                    Your Mapbox token is working correctly! You should now see a satellite map above.
+                </p>
+                <div style="background: #0a0a0a; padding: 20px; border-radius: 8px; text-align: left;">
+                    <p style="margin-bottom: 12px;"><strong>Next Steps:</strong></p>
+                    <ol style="padding-left: 20px; line-height: 1.8;">
+                        <li>Copy your token from the field above</li>
+                        <li>Open <code>frontend/.env</code> in your project</li>
+                        <li>Replace the value of <code>VITE_MAPBOX_TOKEN</code> with your token</li>
+                        <li>Restart the frontend dev server (Ctrl+C, then <code>npm run dev</code>)</li>
+                        <li>Refresh your browser - the map should now load!</li>
+                    </ol>
+                </div>
+            `;
+        }
+
+        function showError(title, message) {
+            status.className = 'status error';
+            statusIcon.textContent = '❌';
+            statusTitle.textContent = title;
+            statusMessage.innerHTML = `
+                <p style="margin-bottom: 16px;">${message}</p>
+                <div style="background: #0a0a0a; padding: 20px; border-radius: 8px; text-align: left;">
+                    <p style="margin-bottom: 12px;"><strong>How to get a valid token:</strong></p>
+                    <ol style="padding-left: 20px; line-height: 1.8;">
+                        <li>Visit <a href="https://account.mapbox.com/" target="_blank" style="color: #2a7fff;">https://account.mapbox.com/</a></li>
+                        <li>Sign in to your account (or create one if you don't have one)</li>
+                        <li>Go to your "Tokens" page</li>
+                        <li>Copy your "Default public token"</li>
+                        <li>Paste it in the field above and test again</li>
+                    </ol>
+                    <p style="margin-top: 16px; padding-top: 16px; border-top: 1px solid #2a2a2a;">
+                        💡 <strong>Tip:</strong> The free tier gives you 50,000 map loads per month - more than enough for development!
+                    </p>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

@@ -1,5 +1,19 @@
 # Quick Setup Guide - Mil-OS
 
+## 🧪 Test Your Token First!
+
+**NEW:** Before configuring the app, test your Mapbox token:
+
+1. Open `test-mapbox-token.html` in your browser (just double-click it!)
+2. Paste your token
+3. Click "Test Token"
+4. If the map loads ✅ → Your token works! Copy it to `.env`
+5. If it fails ❌ → Follow the instructions to get a valid token
+
+This saves time by verifying your token is valid before you configure the full app.
+
+---
+
 ## The map isn't showing? Here's the fix:
 
 ### Problem
