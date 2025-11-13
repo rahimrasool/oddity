@@ -30,7 +30,6 @@ export function CarbonShell() {
 
   return (
     <AppShell
-      padding={0}
       navbar={{
         width: 60,
         breakpoint: 0,
@@ -39,7 +38,6 @@ export function CarbonShell() {
       styles={{
         main: {
           background: '#0a0a0a',
-          padding: 0,
           height: 'calc(100vh - 48px)',
           overflow: 'hidden',
         },
