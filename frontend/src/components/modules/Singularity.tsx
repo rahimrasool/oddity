@@ -3,6 +3,7 @@ import { Box, Drawer, Modal, Text, Badge, Group, Stack } from '@mantine/core';
 import { MapComponent } from '../map/MapComponent';
 import { ObjectExplorer } from '../map/ObjectExplorer';
 import { TimeSeriesSlider } from '../map/TimeSeriesSlider';
+import { EnvDiagnostics } from '../EnvDiagnostics';
 import type { IntelReport, ISRFeed } from '../../types/ontology';
 
 export function Singularity() {
@@ -26,6 +27,9 @@ export function Singularity() {
 
   return (
     <Box style={{ position: 'relative', width: '100%', height: '100%' }}>
+      {/* Environment Diagnostics - helps debug .env issues */}
+      <EnvDiagnostics />
+
       {/* Map Component */}
       <MapComponent
         selectedLayers={selectedLayers}
