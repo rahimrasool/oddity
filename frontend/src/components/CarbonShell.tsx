@@ -5,6 +5,7 @@ import { LeftNavigation } from './LeftNavigation';
 import { TopBar } from './TopBar';
 import { Singularity } from './modules/Singularity';
 import { VantagePK } from './modules/VantagePK';
+import { TitanPK } from './modules/TitanPK';
 
 export function CarbonShell() {
   const [activeModule, setActiveModule] = useState<ModuleType>('singularity');
@@ -16,7 +17,7 @@ export function CarbonShell() {
       case 'guardian':
         return <VantagePK />;
       case 'prophet':
-        return <Box p="xl">PROPHET Module - Coming Soon</Box>;
+        return <TitanPK />;
       case 'nexus':
         return <Box p="xl">NEXUS Module - Coming Soon</Box>;
       case 'vanguard':

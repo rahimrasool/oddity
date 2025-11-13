@@ -2,7 +2,7 @@ import { Stack, Tooltip, UnstyledButton } from '@mantine/core';
 import {
   IconWorldPin,
   IconShield,
-  IconChartLine,
+  IconRocket,
   IconNetwork,
   IconTarget,
   IconEye,
@@ -37,9 +37,9 @@ export function LeftNavigation({ activeModule, onModuleChange }: LeftNavigationP
     },
     {
       id: 'prophet',
-      icon: <IconChartLine size={24} />,
-      label: 'PROPHET',
-      description: 'Predictive Analytics',
+      icon: <IconRocket size={24} />,
+      label: 'TITAN-PK',
+      description: 'Sensor-to-Shooter Targeting Workflow',
     },
     {
       id: 'nexus',
