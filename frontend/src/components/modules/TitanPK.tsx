@@ -7,7 +7,6 @@ import { Disseminate } from '../titan/Disseminate';
 
 export function TitanPK() {
   const [currentStep, setCurrentStep] = useState(1);
-  const [targetConfirmed, setTargetConfirmed] = useState(false);
   const [selectedEffector, setSelectedEffector] = useState<'army' | 'airforce' | null>(null);
 
   const handleNextStep = () => {
@@ -15,7 +14,6 @@ export function TitanPK() {
   };
 
   const handleConfirmTarget = () => {
-    setTargetConfirmed(true);
     handleNextStep();
   };
 

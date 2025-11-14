@@ -1,5 +1,5 @@
 import { Paper, Text, Badge, Box } from '@mantine/core';
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import type { Narrative } from '../../types/ontology';
 
 interface SentimentAnalysisWidgetProps {
@@ -20,7 +20,6 @@ export function SentimentAnalysisWidget({ narratives }: SentimentAnalysisWidgetP
   };
 
   const data = getSentimentData();
-  const total = data.reduce((sum, item) => sum + item.value, 0);
 
   return (
     <Paper

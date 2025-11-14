@@ -10,7 +10,6 @@ interface AvailableAssetsPanelProps {
 }
 
 export function AvailableAssetsPanel({
-  equipmentData,
   onDeployTank,
   onDeployAircraft,
   totalOperational,

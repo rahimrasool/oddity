@@ -207,6 +207,8 @@ export function Oddity() {
       const feature = e.features[0];
       const props = feature.properties;
 
+      if (!props) return;
+
       new mapboxgl.Popup()
         .setLngLat(feature.geometry.type === 'Point' ? feature.geometry.coordinates as [number, number] : [0, 0])
         .setHTML(
