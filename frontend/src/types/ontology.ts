@@ -76,9 +76,12 @@ export interface Narrative {
   id: string;
   keyword: string;
   source_id: string;
+  author_name: string; // Bot or user name
+  is_bot: boolean; // Whether this is a bot account
   platform: "Twitter" | "Facebook";
   sentiment: "Negative" | "Positive" | "Neutral";
   text: string;
+  hashtags: string[]; // Extracted hashtags
   timestamp?: string; // ISO 8601 format
 }
 
@@ -127,4 +130,4 @@ export interface EquipmentData {
 export type LayerType = 'ISRFeeds' | 'IntelReports' | 'EnemyUnits' | 'Assets' | 'HistoricalAttacks';
 
 // Module types for navigation
-export type ModuleType = 'singularity' | 'guardian' | 'prophet' | 'nexus' | 'vanguard' | 'sentinel' | 'oddity';
+export type ModuleType = 'singularity' | 'guardian' | 'prophet' | 'nexus' | 'vanguard' | 'sentinel' | 'oddity' | 'argus';

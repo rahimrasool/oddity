@@ -7,6 +7,7 @@ import { Singularity } from './modules/Singularity';
 import { VantagePK } from './modules/VantagePK';
 import { TitanPK } from './modules/TitanPK';
 import { Oddity } from './modules/Oddity';
+import { Argus } from './modules/Argus';
 
 export function CarbonShell() {
   const [activeModule, setActiveModule] = useState<ModuleType>('singularity');
@@ -22,11 +23,13 @@ export function CarbonShell() {
       case 'nexus':
         return <Oddity />;
       case 'vanguard':
-        return <Box p="xl">VANGUARD Module - Coming Soon</Box>;
+        return <Argus />;
       case 'sentinel':
         return <Box p="xl">SENTINEL Module - Coming Soon</Box>;
       case 'oddity':
         return <Oddity />;
+      case 'argus':
+        return <Argus />;
       default:
         return <Box p="xl">Select a module</Box>;
     }

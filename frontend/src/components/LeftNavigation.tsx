@@ -4,7 +4,7 @@ import {
   IconShield,
   IconRocket,
   IconRoute2,
-  IconTarget,
+  IconMessages,
   IconEye,
 } from '@tabler/icons-react';
 import type { ModuleType } from '../types/ontology';
@@ -49,9 +49,9 @@ export function LeftNavigation({ activeModule, onModuleChange }: LeftNavigationP
     },
     {
       id: 'vanguard',
-      icon: <IconTarget size={24} />,
-      label: 'VANGUARD',
-      description: 'Mission Planning',
+      icon: <IconMessages size={24} />,
+      label: 'ARGUS',
+      description: 'Narrative Warfare Monitor',
     },
     {
       id: 'sentinel',

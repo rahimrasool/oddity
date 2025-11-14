@@ -3,6 +3,7 @@ import cors from 'cors';
 import { generateMockTracks, generateMockIntelReports } from './mockData';
 import { generatePersonnelData, generateLogisticsData, generateEquipmentData } from './vantageData';
 import { generateHistoricalAttacks } from './oddityData';
+import { generateNarrative, generateInitialNarratives } from './argusData';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -112,6 +113,46 @@ app.get('/api/v1/historical_attacks', (req: Request, res: Response) => {
 });
 
 /**
+ * ARGUS Endpoints (Narrative Warfare Monitoring)
+ */
+
+/**
+ * GET /api/v1/social_feed
+ * Streaming endpoint that pushes new Narrative objects every 3 seconds
+ */
+app.get('/api/v1/social_feed', (req: Request, res: Response) => {
+  const clientId = `${Date.now()}-${Math.random()}`;
+
+  // Set headers for Server-Sent Events (SSE)
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+
+  console.log(`[ARGUS] Client ${clientId} connected to social feed stream`);
+
+  // Send initial batch of narratives
+  const initialNarratives = generateInitialNarratives(50);
+  res.write(`data: ${JSON.stringify(initialNarratives)}\n\n`);
+
+  // Send new narrative every 3 seconds
+  const interval = setInterval(() => {
+    if (res.writableEnded) {
+      clearInterval(interval);
+      return;
+    }
+
+    const narrative = generateNarrative();
+    res.write(`data: ${JSON.stringify([narrative])}\n\n`);
+  }, 3000);
+
+  // Handle client disconnect
+  req.on('close', () => {
+    console.log(`[ARGUS] Client ${clientId} disconnected from social feed stream`);
+    clearInterval(interval);
+  });
+});
+
+/**
  * Health check endpoint
  */
 app.get('/health', (req: Request, res: Response) => {
@@ -127,4 +168,5 @@ app.listen(PORT, () => {
   console.log(`VANTAGE Logistics: http://localhost:${PORT}/api/vantage/db_logistics`);
   console.log(`VANTAGE Equipment: http://localhost:${PORT}/api/vantage/db_equipment`);
   console.log(`ODDITY Historical Attacks: http://localhost:${PORT}/api/v1/historical_attacks`);
+  console.log(`ARGUS Social Feed: http://localhost:${PORT}/api/v1/social_feed`);
 });
