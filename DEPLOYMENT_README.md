@@ -1,6 +1,28 @@
 # Mil-OS Prototype - Deployment Guide
 
-## Quick Start - Netlify Deployment
+## 🏆 Recommended: Railway (Full Stack - 5 minutes)
+
+**Railway is the easiest way to deploy both frontend and backend together.**
+
+### Quick Deploy:
+1. Go to https://railway.app/ and sign in with GitHub
+2. Click "New Project" → "Deploy from GitHub repo"
+3. Select `rahimrasool/oddity`
+4. Deploy **Backend** service:
+   - Root Directory: `/backend`
+   - Get the backend URL
+5. Deploy **Frontend** service:
+   - Root Directory: `/frontend`
+   - Add env vars: `VITE_MAPBOX_TOKEN` and `VITE_API_URL` (backend URL)
+6. Done! All 6 modules work perfectly.
+
+**Cost:** $5/month (includes both services, no cold starts)
+
+📖 **Full Railway Guide:** [RAILWAY_DEPLOYMENT.md](./RAILWAY_DEPLOYMENT.md)
+
+---
+
+## Alternative: Netlify (Frontend Only)
 
 ### 1. Fork or Clone Repository
 ```bash
