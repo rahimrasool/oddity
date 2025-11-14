@@ -24,7 +24,6 @@ export function TitanPK() {
 
   const handleReset = () => {
     setCurrentStep(1);
-    setTargetConfirmed(false);
     setSelectedEffector(null);
   };
 
