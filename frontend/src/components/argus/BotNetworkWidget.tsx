@@ -1,5 +1,5 @@
 import { Paper, Text } from '@mantine/core';
-import { ForceGraph2D } from 'react-force-graph-2d';
+import ForceGraph2D from 'react-force-graph-2d';
 import type { Narrative } from '../../types/ontology';
 import { useRef, useEffect, useState } from 'react';
 
