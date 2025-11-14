@@ -127,4 +127,4 @@ export interface EquipmentData {
 export type LayerType = 'ISRFeeds' | 'IntelReports' | 'EnemyUnits' | 'Assets' | 'HistoricalAttacks';
 
 // Module types for navigation
-export type ModuleType = 'singularity' | 'guardian' | 'prophet' | 'nexus' | 'vanguard' | 'sentinel';
+export type ModuleType = 'singularity' | 'guardian' | 'prophet' | 'nexus' | 'vanguard' | 'sentinel' | 'oddity';

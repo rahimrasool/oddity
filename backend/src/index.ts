@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 import { generateMockTracks, generateMockIntelReports } from './mockData';
 import { generatePersonnelData, generateLogisticsData, generateEquipmentData } from './vantageData';
+import { generateHistoricalAttacks } from './oddityData';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -97,6 +98,20 @@ app.get('/api/vantage/db_equipment', (req: Request, res: Response) => {
 });
 
 /**
+ * ODDITY Endpoints (Predictive Threat Modeling)
+ */
+
+/**
+ * GET /api/v1/historical_attacks
+ * Returns 250+ historical attack records for South Waziristan region
+ */
+app.get('/api/v1/historical_attacks', (req: Request, res: Response) => {
+  const attacks = generateHistoricalAttacks();
+  console.log(`[ODDITY] Serving historical attacks data: ${attacks.length} records`);
+  res.json(attacks);
+});
+
+/**
  * Health check endpoint
  */
 app.get('/health', (req: Request, res: Response) => {
@@ -111,4 +126,5 @@ app.listen(PORT, () => {
   console.log(`VANTAGE Personnel: http://localhost:${PORT}/api/vantage/db_personnel`);
   console.log(`VANTAGE Logistics: http://localhost:${PORT}/api/vantage/db_logistics`);
   console.log(`VANTAGE Equipment: http://localhost:${PORT}/api/vantage/db_equipment`);
+  console.log(`ODDITY Historical Attacks: http://localhost:${PORT}/api/v1/historical_attacks`);
 });

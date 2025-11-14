@@ -3,7 +3,7 @@ import {
   IconWorldPin,
   IconShield,
   IconRocket,
-  IconNetwork,
+  IconRoute2,
   IconTarget,
   IconEye,
 } from '@tabler/icons-react';
@@ -43,9 +43,9 @@ export function LeftNavigation({ activeModule, onModuleChange }: LeftNavigationP
     },
     {
       id: 'nexus',
-      icon: <IconNetwork size={24} />,
-      label: 'NEXUS',
-      description: 'Network Analysis',
+      icon: <IconRoute2 size={24} />,
+      label: 'ODDITY',
+      description: 'Predictive Threat & Ambush Modeling',
     },
     {
       id: 'vanguard',
