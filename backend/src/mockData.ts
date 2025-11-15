@@ -181,6 +181,86 @@ export function generateMockTracks() {
       ordnance: '2x PL-5, 2x PL-9',
       is_part_of: 'unit-airforce',
       timestamp: now
+    },
+    {
+      id: 'air-005',
+      callsign: 'VIPER-5',
+      type: 'JF-17',
+      location: updateTrackPosition('air-005', BASE_LAT - 0.4, BASE_LON - 0.2, 7800),
+      status: 'On Station',
+      ordnance: '2x PL-5, 2x SD-10',
+      is_part_of: 'unit-airforce',
+      timestamp: now
+    },
+    {
+      id: 'air-006',
+      callsign: 'VIPER-6',
+      type: 'JF-17',
+      location: updateTrackPosition('air-006', BASE_LAT + 0.5, BASE_LON - 0.1, 8200),
+      status: 'On Station',
+      ordnance: '2x PL-9, 2x PL-5',
+      is_part_of: 'unit-airforce',
+      timestamp: now
+    },
+    {
+      id: 'air-007',
+      callsign: 'VIPER-7',
+      type: 'JF-17',
+      location: updateTrackPosition('air-007', BASE_LAT - 0.2, BASE_LON - 0.4, 8600),
+      status: 'On Station',
+      ordnance: '2x SD-10, 1x C-802',
+      is_part_of: 'unit-airforce',
+      timestamp: now
+    },
+    {
+      id: 'air-008',
+      callsign: 'VIPER-8',
+      type: 'JF-17',
+      location: updateTrackPosition('air-008', BASE_LAT + 0.3, BASE_LON + 0.5, 7600),
+      status: 'On Station',
+      ordnance: '2x PL-5, 2x PL-9',
+      is_part_of: 'unit-airforce',
+      timestamp: now
+    },
+    {
+      id: 'air-009',
+      callsign: 'FALCON-1',
+      type: 'JF-17',
+      location: updateTrackPosition('air-009', BASE_LAT - 0.5, BASE_LON + 0.3, 8300),
+      status: 'On Station',
+      ordnance: '2x PL-5, 2x SD-10',
+      is_part_of: 'unit-airforce',
+      timestamp: now
+    },
+    {
+      id: 'air-010',
+      callsign: 'FALCON-2',
+      type: 'JF-17',
+      location: updateTrackPosition('air-010', BASE_LAT + 0.1, BASE_LON - 0.5, 8900),
+      status: 'On Station',
+      ordnance: '2x PL-9, 2x PL-5',
+      is_part_of: 'unit-airforce',
+      timestamp: now
+    },
+    {
+      id: 'air-011',
+      callsign: 'FALCON-3',
+      type: 'JF-17',
+      location: updateTrackPosition('air-011', BASE_LAT - 0.1, BASE_LON + 0.6, 7400),
+      status: 'On Station',
+      ordnance: '2x SD-10, 2x PL-5',
+      is_part_of: 'unit-airforce',
+      timestamp: now
+    },
+    {
+      id: 'air-012',
+      callsign: 'FALCON-4',
+      type: 'JF-17',
+      location: updateTrackPosition('air-012', BASE_LAT + 0.6, BASE_LON + 0.2, 8700),
+      status: 'On Station',
+      ordnance: '2x PL-5, 1x C-802',
+      is_part_of: 'unit-airforce',
+      timestamp: now
     }
   ];
 

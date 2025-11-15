@@ -192,18 +192,27 @@ export function MapComponent({
 
       // Create marker element
       const el = document.createElement('div');
-      el.style.width = '24px';
-      el.style.height = '24px';
-      el.style.borderRadius = '50%';
-      el.style.cursor = 'pointer';
-      el.style.border = '2px solid #ffffff';
-      el.style.boxShadow = '0 2px 4px rgba(0,0,0,0.5)';
 
       if (props.dataType === 'IntelReport') {
+        // Circular markers for intel reports
+        el.style.width = '24px';
+        el.style.height = '24px';
+        el.style.borderRadius = '50%';
+        el.style.cursor = 'pointer';
+        el.style.border = '2px solid #ffffff';
+        el.style.boxShadow = '0 2px 4px rgba(0,0,0,0.5)';
         el.style.backgroundColor = props.type === 'HUMINT' ? '#2a7fff' : '#ff8c00';
         el.title = `${props.type} - ${props.reliability}`;
       } else if (props.dataType === 'EnemyUnit') {
-        el.style.backgroundColor = '#ff0000';
+        // Triangle markers for enemy units
+        el.style.width = '0';
+        el.style.height = '0';
+        el.style.borderLeft = '15px solid transparent';
+        el.style.borderRight = '15px solid transparent';
+        el.style.borderBottom = '26px solid #ff0000';
+        el.style.cursor = 'pointer';
+        el.style.filter = 'drop-shadow(0 2px 4px rgba(0,0,0,0.5))';
+        el.style.transform = 'translateX(-15px)';
         el.title = props.name;
       }
 
@@ -268,7 +277,7 @@ export function MapComponent({
       trackData.assetAir.forEach((asset) => {
         const el = document.createElement('div');
         el.innerHTML = '✈';
-        el.style.fontSize = '20px';
+        el.style.fontSize = '60px';
         el.style.cursor = 'pointer';
         el.style.filter = 'drop-shadow(0 2px 4px rgba(0,0,0,0.8))';
         el.title = `${asset.callsign} - ${asset.type}`;
