@@ -50,17 +50,19 @@ export function CarbonShell() {
       header={{ height: 48 }}
       styles={{
         main: {
-          background: '#0a0a0a',
+          background: 'transparent',
           height: 'calc(100vh - 48px)',
           overflow: 'hidden',
         },
         navbar: {
-          background: '#161616',
-          borderRight: '1px solid #2a2a2a',
+          background: 'rgba(8, 52, 69, 0.6)',
+          borderRight: '1px solid rgba(0, 217, 255, 0.2)',
+          backdropFilter: 'blur(10px)',
         },
         header: {
-          background: '#161616',
-          borderBottom: '1px solid #2a2a2a',
+          background: 'rgba(8, 52, 69, 0.8)',
+          borderBottom: '2px solid rgba(0, 217, 255, 0.3)',
+          backdropFilter: 'blur(10px)',
         },
       }}
     >

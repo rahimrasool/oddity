@@ -8,13 +8,49 @@
 }
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  /* Distinctive Military Typography */
+  --font-heading: 'Rajdhani', sans-serif;
+  --font-body: 'Saira Condensed', sans-serif;
+  --font-mono: 'Electrolize', monospace;
+
+  /* Tactical Color Palette - Deep Petroleum Blues with Amber Accents */
+  --color-primary: #0D4F6E;
+  --color-primary-dark: #083445;
+  --color-primary-light: #165C7D;
+  --color-accent: #FF6B35;
+  --color-accent-bright: #FF8C42;
+  --color-accent-dim: #D4522A;
+
+  /* Pakistan Military Context - Green Accents */
+  --color-military-green: #01592F;
+  --color-military-green-bright: #02964F;
+
+  /* Tactical UI Colors */
+  --color-tactical-cyan: #00D9FF;
+  --color-tactical-amber: #FFB627;
+  --color-warning: #FFA500;
+  --color-critical: #FF3D3D;
+  --color-success: #00FF88;
+
+  /* Atmospheric Backgrounds */
+  --bg-command: linear-gradient(135deg, #0A1E2A 0%, #051015 50%, #0A1E2A 100%);
+  --bg-panel: rgba(13, 35, 45, 0.85);
+  --bg-panel-light: rgba(20, 50, 65, 0.7);
+  --bg-hover: rgba(0, 217, 255, 0.1);
+
+  /* Borders and Dividers */
+  --border-color: rgba(0, 217, 255, 0.2);
+  --border-accent: rgba(255, 107, 53, 0.4);
+
+  /* Typography Settings */
+  font-family: var(--font-body);
   line-height: 1.5;
   font-weight: 400;
+  letter-spacing: 0.3px;
 
   color-scheme: dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #0a0a0a;
+  color: #E8F4F8;
+  background: var(--bg-command);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -28,11 +64,236 @@ body {
   min-width: 320px;
   min-height: 100vh;
   overflow: hidden;
-  background-color: #0a0a0a;
+  background: var(--bg-command);
+  position: relative;
+}
+
+/* Atmospheric Background with Depth */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(ellipse at 20% 30%, rgba(0, 217, 255, 0.03) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 70%, rgba(255, 107, 53, 0.02) 0%, transparent 50%),
+    linear-gradient(135deg,
+      rgba(10, 30, 42, 0.9) 0%,
+      rgba(5, 16, 21, 0.95) 25%,
+      rgba(8, 52, 69, 0.85) 50%,
+      rgba(5, 16, 21, 0.95) 75%,
+      rgba(10, 30, 42, 0.9) 100%
+    );
+  z-index: -2;
+  animation: atmosphericShift 20s ease-in-out infinite;
+}
+
+/* Tactical Scan Lines Effect */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 217, 255, 0.015) 2px,
+    rgba(0, 217, 255, 0.015) 4px
+  );
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.4;
+}
+
+@keyframes atmosphericShift {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scale(1.02);
+  }
 }
 
 #root {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+  animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Global Typography Overrides */
+h1, h2, h3, h4, h5, h6,
+.mantine-Title-root {
+  font-family: var(--font-heading) !important;
+  font-weight: 700 !important;
+  letter-spacing: 1.2px !important;
+  text-transform: uppercase;
+}
+
+button,
+.mantine-Button-root {
+  font-family: var(--font-body) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.5px !important;
+  transition: all 0.2s ease;
+}
+
+/* Tactical Button Hover Effects */
+.mantine-Button-root:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 217, 255, 0.3);
+}
+
+.mantine-Button-root:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* Enhanced Badge Styling */
+.mantine-Badge-root {
+  font-family: var(--font-mono) !important;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid currentColor;
+  animation: badgePulse 2s ease-in-out infinite;
+}
+
+@keyframes badgePulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+/* Monospace Elements */
+code,
+pre,
+.mantine-Code-root,
+[class*="mono"] {
+  font-family: var(--font-mono) !important;
+}
+
+/* Enhanced Paper Components with Tactical Borders */
+.mantine-Paper-root {
+  background: var(--bg-panel) !important;
+  border: 1px solid var(--border-color) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.mantine-Paper-root::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--color-tactical-cyan) 50%,
+    transparent 100%
+  );
+  opacity: 0.3;
+}
+
+/* Smooth Transitions for Interactive Elements */
+.mantine-UnstyledButton-root,
+.mantine-ActionIcon-root,
+a {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Tactical Grid Pattern (subtle) */
+.tactical-grid {
+  background-image:
+    linear-gradient(var(--border-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
+  background-size: 20px 20px;
+  opacity: 0.05;
+}
+
+/* Loading States with Military Aesthetic */
+@keyframes militaryPulse {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 var(--color-tactical-cyan);
+  }
+  50% {
+    opacity: 0.7;
+    box-shadow: 0 0 20px 5px var(--color-tactical-cyan);
+  }
+}
+
+/* Staggered Reveal Animation for Dashboard Widgets */
+[data-widget] {
+  animation: widgetReveal 0.6s ease-out backwards;
+}
+
+[data-widget]:nth-child(1) { animation-delay: 0.1s; }
+[data-widget]:nth-child(2) { animation-delay: 0.2s; }
+[data-widget]:nth-child(3) { animation-delay: 0.3s; }
+[data-widget]:nth-child(4) { animation-delay: 0.4s; }
+[data-widget]:nth-child(5) { animation-delay: 0.5s; }
+[data-widget]:nth-child(6) { animation-delay: 0.6s; }
+
+@keyframes widgetReveal {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(5, 16, 21, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border-radius: 4px;
+  border: 1px solid var(--color-tactical-cyan);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary-light);
+}
+
+/* Selection Styling */
+::selection {
+  background: var(--color-tactical-cyan);
+  color: #000;
+}
+
+::-moz-selection {
+  background: var(--color-tactical-cyan);
+  color: #000;
 }

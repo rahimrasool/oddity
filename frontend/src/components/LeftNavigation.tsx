@@ -90,22 +90,30 @@ export function LeftNavigation({ activeModule, onModuleChange }: LeftNavigationP
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              borderRadius: 8,
-              background: activeModule === item.id ? '#2a7fff' : 'transparent',
-              color: activeModule === item.id ? '#ffffff' : '#a0a0a0',
-              transition: 'all 0.2s ease',
-              marginBottom: 4,
+              borderRadius: 6,
+              background: activeModule === item.id
+                ? 'linear-gradient(135deg, rgba(0, 217, 255, 0.2), rgba(255, 107, 53, 0.15))'
+                : 'transparent',
+              color: activeModule === item.id ? '#00D9FF' : '#7CA5B8',
+              border: activeModule === item.id ? '1px solid rgba(0, 217, 255, 0.4)' : '1px solid transparent',
+              boxShadow: activeModule === item.id ? '0 0 15px rgba(0, 217, 255, 0.2)' : 'none',
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              marginBottom: 6,
             }}
             onMouseEnter={(e) => {
               if (activeModule !== item.id) {
-                e.currentTarget.style.background = '#262626';
-                e.currentTarget.style.color = '#ffffff';
+                e.currentTarget.style.background = 'rgba(0, 217, 255, 0.08)';
+                e.currentTarget.style.color = '#00D9FF';
+                e.currentTarget.style.border = '1px solid rgba(0, 217, 255, 0.2)';
+                e.currentTarget.style.transform = 'scale(1.05)';
               }
             }}
             onMouseLeave={(e) => {
               if (activeModule !== item.id) {
                 e.currentTarget.style.background = 'transparent';
-                e.currentTarget.style.color = '#a0a0a0';
+                e.currentTarget.style.color = '#7CA5B8';
+                e.currentTarget.style.border = '1px solid transparent';
+                e.currentTarget.style.transform = 'scale(1)';
               }
             }}
           >
