@@ -68,7 +68,7 @@ Visit your frontend URL. All features should work:
 - ✅ TITAN-PK: Targeting workflow
 - ✅ ODDITY: Historical attacks
 - ✅ ARGUS: Social media feed
-- ✅ CHAKRAVYUH: Wargaming with live data
+- ✅ GAME ZONE: Wargaming with live data
 
 ## Alternative: One-Click Deploy Button
 

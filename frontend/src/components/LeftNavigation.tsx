@@ -57,7 +57,7 @@ export function LeftNavigation({ activeModule, onModuleChange }: LeftNavigationP
     {
       id: 'sentinel',
       icon: <IconSwords size={24} />,
-      label: 'CHAKRAVYUH',
+      label: 'GAME ZONE',
       description: 'Joint Operations Wargaming',
     },
     {

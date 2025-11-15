@@ -80,7 +80,7 @@ Visit your Netlify URL (e.g., `https://your-site.netlify.app`)
 - VANTAGE-PK: Readiness data (will show loading state)
 - ODDITY: Historical attacks (map only)
 - ARGUS: Social media feed (empty)
-- CHAKRAVYUH: Equipment data (will show loading state)
+- GAME ZONE: Equipment data (will show loading state)
 
 ## Full Deployment (Frontend + Backend)
 

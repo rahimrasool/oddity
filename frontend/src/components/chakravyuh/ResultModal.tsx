@@ -145,7 +145,7 @@ export function ResultModal({ opened, onClose, blueUnitsCount, redPositionsCount
       {/* Next Steps */}
       <Box mb="md">
         <Text size="sm" c="dimmed" mb="md">
-          This simulation demonstrates how CHAKRAVYUH integrates live readiness data from VANTAGE-PK
+          This simulation demonstrates how GAME ZONE integrates live readiness data from VANTAGE-PK
           to provide realistic wargaming outcomes. The system is not PowerPoint-based—it uses actual
           operational data to inform tactical decisions.
         </Text>

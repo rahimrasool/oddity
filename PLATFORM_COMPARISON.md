@@ -197,7 +197,7 @@
    - ⚠️ Netlify+Render: Cold starts kill stream
    - ❌ Vercel: 10-second timeout
 
-5. **CHAKRAVYUH**
+5. **GAME ZONE**
    - REST API for equipment data
    - ✅ All platforms work
 

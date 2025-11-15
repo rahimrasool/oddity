@@ -17,7 +17,7 @@ You have two options:
 ### Option 1: Frontend-Only Demo (Limited Functionality)
 Deploy just the frontend to Netlify. The following features will NOT work without the backend:
 - Real-time data streaming (SINGULARITY ISR feeds, ARGUS social feed)
-- Live equipment data (VANTAGE-PK, CHAKRAVYUH)
+- Live equipment data (VANTAGE-PK, GAME ZONE)
 - Historical attacks data (ODDITY)
 
 ### Option 2: Full Deployment (Recommended)
@@ -103,7 +103,7 @@ After deploying the backend:
    - **TITAN-PK**: Should work (no backend required)
    - **ODDITY**: Map loads, but attacks data requires backend
    - **ARGUS**: Requires backend for live feed
-   - **CHAKRAVYUH**: Requires backend for equipment data
+   - **GAME ZONE**: Requires backend for equipment data
 
 ## Troubleshooting
 

@@ -73,7 +73,7 @@ export function Chakravyuh() {
       .then((data: EquipmentData[]) => {
         setEquipmentData(data);
       })
-      .catch((err) => console.error('[CHAKRAVYUH] Failed to fetch equipment data:', err));
+      .catch((err) => console.error('[GAME ZONE] Failed to fetch equipment data:', err));
   }, []);
 
   // Update map markers when units change
