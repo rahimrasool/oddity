@@ -59,9 +59,9 @@ function updateTrackPosition(id: string, initialLat?: number, initialLon?: numbe
     const lon = initialLon ?? BASE_LON + (Math.random() - 0.5) * SPREAD;
     const alt = initialAlt ?? 3000 + Math.random() * 7000;
     const velocity: [number, number, number] = [
-      (Math.random() - 0.5) * 0.005, // lon velocity
-      (Math.random() - 0.5) * 0.005, // lat velocity
-      (Math.random() - 0.5) * 50      // alt velocity
+      (Math.random() - 0.5) * 0.02,  // lon velocity (4x faster)
+      (Math.random() - 0.5) * 0.02,  // lat velocity (4x faster)
+      (Math.random() - 0.5) * 200     // alt velocity (4x faster)
     ];
     trackState.set(id, { location: [lon, lat, alt], velocity });
     return [lon, lat, alt];
