@@ -4,6 +4,8 @@ import type { PersonnelData, LogisticsData, EquipmentData } from '../../types/on
 import { JointReadinessWidget } from '../vantage/JointReadinessWidget';
 import { PersonnelStatusWidget } from '../vantage/PersonnelStatusWidget';
 import { LogisticsAlertWidget } from '../vantage/LogisticsAlertWidget';
+import { LiveLogisticsFeed } from '../vantage/LiveLogisticsFeed';
+import { LLMQAPanel } from '../vantage/LLMQAPanel';
 
 export function VantagePK() {
   const [personnelData, setPersonnelData] = useState<PersonnelData[]>([]);
@@ -136,6 +138,20 @@ export function VantagePK() {
         <Grid.Col span={12}>
           <LogisticsAlertWidget
             logisticsData={logisticsData}
+          />
+        </Grid.Col>
+
+        {/* Widget 4: Live Logistics Feed */}
+        <Grid.Col span={{ base: 12, md: 6 }}>
+          <LiveLogisticsFeed />
+        </Grid.Col>
+
+        {/* Widget 5: AI Logistics Assistant */}
+        <Grid.Col span={{ base: 12, md: 6 }}>
+          <LLMQAPanel
+            logisticsData={logisticsData}
+            equipmentData={equipmentData}
+            personnelData={personnelData}
           />
         </Grid.Col>
       </Grid>
