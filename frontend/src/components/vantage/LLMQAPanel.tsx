@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Paper, Text, Stack, Button, Loader, Group, Badge } from '@mantine/core';
-import { IconSparkles, IconMessageQuestion } from '@tabler/icons-react';
+import { Paper, Text, Stack, Button, Loader, Group, Badge, TextInput, ActionIcon } from '@mantine/core';
+import { IconSparkles, IconMessageQuestion, IconSend } from '@tabler/icons-react';
 import type { LogisticsData, EquipmentData, PersonnelData } from '../../types/ontology';
 
 interface LLMQAPanelProps {
@@ -22,6 +22,7 @@ export function LLMQAPanel({ logisticsData, equipmentData, personnelData }: LLMQ
   const [currentQuestion, setCurrentQuestion] = useState<string | null>(null);
   const [currentAnswer, setCurrentAnswer] = useState<string | null>(null);
   const [isThinking, setIsThinking] = useState(false);
+  const [customQuestion, setCustomQuestion] = useState('');
 
   const generateAnswer = (question: string): string => {
     // Calculate actual statistics from data
@@ -90,6 +91,19 @@ export function LLMQAPanel({ logisticsData, equipmentData, personnelData }: LLMQ
     setIsThinking(false);
   };
 
+  const handleCustomQuestionSubmit = () => {
+    if (customQuestion.trim()) {
+      handleQuestionClick(customQuestion);
+      setCustomQuestion('');
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && !isThinking) {
+      handleCustomQuestionSubmit();
+    }
+  };
+
   return (
     <Paper
       p="md"
@@ -115,6 +129,32 @@ export function LLMQAPanel({ logisticsData, equipmentData, personnelData }: LLMQ
       <Text size="sm" c="dimmed" mb="md">
         Ask questions about logistics, readiness, and resource allocation
       </Text>
+
+      {/* Custom Question Input */}
+      <TextInput
+        placeholder="Type your question here..."
+        value={customQuestion}
+        onChange={(e) => setCustomQuestion(e.currentTarget.value)}
+        onKeyPress={handleKeyPress}
+        disabled={isThinking}
+        rightSection={
+          <ActionIcon
+            variant="filled"
+            color="violet"
+            onClick={handleCustomQuestionSubmit}
+            disabled={isThinking || !customQuestion.trim()}
+          >
+            <IconSend size={18} />
+          </ActionIcon>
+        }
+        mb="lg"
+        styles={{
+          input: {
+            backgroundColor: 'var(--mantine-color-dark-6)',
+            borderColor: 'var(--mantine-color-dark-4)',
+          },
+        }}
+      />
 
       {/* Sample Questions */}
       <Stack gap="xs" mb="lg">
