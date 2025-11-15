@@ -6,6 +6,7 @@ import {
   IconRoute2,
   IconMessages,
   IconSwords,
+  IconRobot,
 } from '@tabler/icons-react';
 import type { ModuleType } from '../types/ontology';
 
@@ -58,6 +59,12 @@ export function LeftNavigation({ activeModule, onModuleChange }: LeftNavigationP
       icon: <IconSwords size={24} />,
       label: 'CHAKRAVYUH',
       description: 'Joint Operations Wargaming',
+    },
+    {
+      id: 'sovereign',
+      icon: <IconRobot size={24} />,
+      label: 'SOVEREIGN',
+      description: 'AI Agent Builder',
     },
   ];
 

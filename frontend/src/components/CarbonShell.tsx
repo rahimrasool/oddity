@@ -9,6 +9,7 @@ import { TitanPK } from './modules/TitanPK';
 import { Oddity } from './modules/Oddity';
 import { Argus } from './modules/Argus';
 import { Chakravyuh } from './modules/Chakravyuh';
+import { Sovereign } from './modules/Sovereign';
 
 export function CarbonShell() {
   const [activeModule, setActiveModule] = useState<ModuleType>('singularity');
@@ -33,6 +34,8 @@ export function CarbonShell() {
         return <Argus />;
       case 'chakravyuh':
         return <Chakravyuh />;
+      case 'sovereign':
+        return <Sovereign />;
       default:
         return <Box p="xl">Select a module</Box>;
     }
