@@ -31,10 +31,10 @@ export function TitanPK() {
     <Box
       style={{
         width: '100%',
-        height: '100%',
+        minHeight: '100%',
         background: '#0a0a0a',
         position: 'relative',
-        overflow: 'hidden',
+        overflow: 'auto',
       }}
     >
       {currentStep === 1 && <DetectAndTask onNext={handleNextStep} />}

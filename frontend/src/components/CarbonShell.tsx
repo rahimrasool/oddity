@@ -52,7 +52,7 @@ export function CarbonShell() {
         main: {
           background: 'transparent',
           height: 'calc(100vh - 48px)',
-          overflow: 'hidden',
+          overflow: 'auto',
         },
         navbar: {
           background: 'rgba(8, 52, 69, 0.6)',
