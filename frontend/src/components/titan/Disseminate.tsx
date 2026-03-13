@@ -7,7 +7,7 @@ import {
   IconRefresh,
   IconShieldCheck,
 } from '@tabler/icons-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface DisseminateProps {
   selectedEffector: 'army' | 'airforce' | null;
@@ -17,6 +17,7 @@ interface DisseminateProps {
 export function Disseminate({ selectedEffector, onReset }: DisseminateProps) {
   const [showSuccess, setShowSuccess] = useState(false);
   const [currentTime] = useState(new Date());
+  const messageId = useRef(`TKG-${Math.floor(Math.random() * 100000)}`).current;
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -209,7 +210,7 @@ export function Disseminate({ selectedEffector, onReset }: DisseminateProps) {
               Strike order transmitted to {targetHQ}
             </Text>
             <Text c="dimmed" size="sm" mt={4}>
-              Message ID: TKG-{Math.floor(Math.random() * 100000)}
+              Message ID: {messageId}
             </Text>
             <Text size="xs" c="dimmed" mt={4}>
               {currentTime.toLocaleTimeString()} - Completed

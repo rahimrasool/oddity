@@ -31,6 +31,9 @@ export function Chakravyuh() {
   const [isSimulating, setIsSimulating] = useState(false);
   const [showResult, setShowResult] = useState(false);
 
+  const isSimulatingRef = useRef(isSimulating);
+  isSimulatingRef.current = isSimulating;
+
   // Initialize map
   useEffect(() => {
     if (!mapContainer.current || map.current) return;
@@ -48,7 +51,7 @@ export function Chakravyuh() {
 
     // Enable map click for placing red units
     map.current.on('click', (e) => {
-      if (!isSimulating) {
+      if (!isSimulatingRef.current) {
         const lngLat: [number, number] = [e.lngLat.lng, e.lngLat.lat];
         setRedPositions((prev) => [...prev, lngLat]);
       }
@@ -64,7 +67,7 @@ export function Chakravyuh() {
         map.current = null;
       }
     };
-  }, [isSimulating]);
+  }, []);
 
   // Fetch equipment data
   useEffect(() => {
@@ -196,7 +199,6 @@ export function Chakravyuh() {
 
       {/* Available Assets Panel */}
       <AvailableAssetsPanel
-        equipmentData={equipmentData}
         onDeployTank={() => handleDeployUnit('tank')}
         onDeployAircraft={() => handleDeployUnit('aircraft')}
         totalOperational={getTotalOperationalAssets()}

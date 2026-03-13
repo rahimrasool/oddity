@@ -1,16 +1,13 @@
 import { Paper, Text, Button, Stack, Badge, Divider } from '@mantine/core';
 import { IconTank, IconPlane, IconDatabase } from '@tabler/icons-react';
-import type { EquipmentData } from '../../types/ontology';
 
 interface AvailableAssetsPanelProps {
-  equipmentData: EquipmentData[];
   onDeployTank: () => void;
   onDeployAircraft: () => void;
   totalOperational: { tanks: number; aircraft: number };
 }
 
 export function AvailableAssetsPanel({
-  equipmentData,
   onDeployTank,
   onDeployAircraft,
   totalOperational,

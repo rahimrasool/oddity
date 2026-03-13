@@ -98,7 +98,7 @@ export function JointReadinessWidget({ equipmentData, onBranchSelect, selectedBr
             {chartData.map((entry, index) => (
               <Cell
                 key={`cell-${index}`}
-                fill={COLORS[entry.name as keyof typeof COLORS]}
+                fill={COLORS[entry.name as keyof typeof COLORS] || '#808080'}
                 opacity={selectedBranch === null || selectedBranch === entry.name ? 1 : 0.3}
                 stroke={selectedBranch === entry.name ? '#ffffff' : 'none'}
                 strokeWidth={selectedBranch === entry.name ? 2 : 0}

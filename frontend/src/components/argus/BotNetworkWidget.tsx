@@ -23,7 +23,7 @@ interface GraphLink {
 }
 
 export function BotNetworkWidget({ narratives, selectedBot, onBotClick }: BotNetworkWidgetProps) {
-  const fgRef = useRef<any>();
+  const fgRef = useRef<any>(null);
   const [dimensions, setDimensions] = useState({ width: 600, height: 400 });
 
   useEffect(() => {
