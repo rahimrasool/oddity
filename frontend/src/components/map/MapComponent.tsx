@@ -121,7 +121,7 @@ export function MapComponent({
   useEffect(() => {
     if (!mapLoaded) return;
 
-    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+    const API_URL = import.meta.env.VITE_API_URL !== undefined ? import.meta.env.VITE_API_URL : 'http://localhost:3001';
     fetch(`${API_URL}/api/v1/intel_reports`)
       .then((res) => res.json())
       .then((data) => {
@@ -135,7 +135,7 @@ export function MapComponent({
   useEffect(() => {
     if (!mapLoaded) return;
 
-    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+    const API_URL = import.meta.env.VITE_API_URL !== undefined ? import.meta.env.VITE_API_URL : 'http://localhost:3001';
     const eventSource = new EventSource(`${API_URL}/api/v1/tracks`);
     eventSourceRef.current = eventSource;
 

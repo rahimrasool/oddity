@@ -6,7 +6,7 @@ import { AvailableAssetsPanel } from '../chakravyuh/AvailableAssetsPanel';
 import { SimulationControls } from '../chakravyuh/SimulationControls';
 import { ResultModal } from '../chakravyuh/ResultModal';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+const API_URL = import.meta.env.VITE_API_URL !== undefined ? import.meta.env.VITE_API_URL : 'http://localhost:3001';
 const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN || '';
 
 // Pakistan operational area

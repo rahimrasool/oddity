@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
+import path from 'path';
 import { generateMockTracks, generateMockIntelReports } from './mockData';
 import { generatePersonnelData, generateLogisticsData, generateEquipmentData } from './vantageData';
 import { generateHistoricalAttacks } from './oddityData';
@@ -11,6 +12,10 @@ const PORT = process.env.PORT || 3001;
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// Serve static frontend files (after build)
+const frontendDistPath = path.join(__dirname, '../../frontend/dist');
+app.use(express.static(frontendDistPath));
 
 // Store for tracking clients receiving streaming data
 const streamClients = new Map<string, Response>();
@@ -157,6 +162,11 @@ app.get('/api/v1/social_feed', (req: Request, res: Response) => {
  */
 app.get('/health', (req: Request, res: Response) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
+// Serve frontend for all other routes (SPA fallback)
+app.get('*', (req: Request, res: Response) => {
+  res.sendFile(path.join(frontendDistPath, 'index.html'));
 });
 
 // Start server

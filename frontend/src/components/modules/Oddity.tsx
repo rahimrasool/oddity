@@ -8,7 +8,7 @@ import { FilterPanel } from '../oddity/FilterPanel';
 import { RoutePlanner } from '../oddity/RoutePlanner';
 import { RiskAssessment } from '../oddity/RiskAssessment';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+const API_URL = import.meta.env.VITE_API_URL !== undefined ? import.meta.env.VITE_API_URL : 'http://localhost:3001';
 const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN || '';
 
 // South Waziristan region center
