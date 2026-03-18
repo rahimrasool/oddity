@@ -2,9 +2,9 @@ import { useState, useEffect, useRef } from 'react';
 import { Box } from '@mantine/core';
 import mapboxgl from 'mapbox-gl';
 import type { EquipmentData } from '../../types/ontology';
-import { AvailableAssetsPanel } from '../chakravyuh/AvailableAssetsPanel';
-import { SimulationControls } from '../chakravyuh/SimulationControls';
-import { ResultModal } from '../chakravyuh/ResultModal';
+import { AvailableAssetsPanel } from '../wargame/AvailableAssetsPanel';
+import { SimulationControls } from '../wargame/SimulationControls';
+import { ResultModal } from '../wargame/ResultModal';
 
 const API_URL = import.meta.env.VITE_API_URL !== undefined ? import.meta.env.VITE_API_URL : 'http://localhost:3001';
 const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN || '';
@@ -20,7 +20,7 @@ interface DeployedUnit {
   side: 'blue' | 'red';
 }
 
-export function Chakravyuh() {
+export function Wargame() {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
 
@@ -76,7 +76,7 @@ export function Chakravyuh() {
       .then((data: EquipmentData[]) => {
         setEquipmentData(data);
       })
-      .catch((err) => console.error('[CHAKRAVYUH] Failed to fetch equipment data:', err));
+      .catch((err) => console.error('[WARGAME] Failed to fetch equipment data:', err));
   }, []);
 
   // Update map markers when units change
@@ -84,12 +84,12 @@ export function Chakravyuh() {
     if (!map.current || !mapLoaded) return;
 
     // Remove existing markers
-    document.querySelectorAll('.chakravyuh-marker').forEach((el) => el.remove());
+    document.querySelectorAll('.wargame-marker').forEach((el) => el.remove());
 
     // Add deployed blue units
     deployedUnits.forEach((unit) => {
       const el = document.createElement('div');
-      el.className = 'chakravyuh-marker';
+      el.className = 'wargame-marker';
       el.style.width = '30px';
       el.style.height = '30px';
       el.style.borderRadius = unit.type === 'aircraft' ? '50%' : '4px';
@@ -107,7 +107,7 @@ export function Chakravyuh() {
     // Add red positions
     redPositions.forEach((pos) => {
       const el = document.createElement('div');
-      el.className = 'chakravyuh-marker';
+      el.className = 'wargame-marker';
       el.style.width = '30px';
       el.style.height = '30px';
       el.style.borderRadius = '4px';

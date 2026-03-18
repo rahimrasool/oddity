@@ -8,7 +8,7 @@ import { VantagePK } from './modules/VantagePK';
 import { TitanPK } from './modules/TitanPK';
 import { Oddity } from './modules/Oddity';
 import { Argus } from './modules/Argus';
-import { Chakravyuh } from './modules/Chakravyuh';
+import { Wargame } from './modules/Wargame';
 
 export function CarbonShell() {
   const [activeModule, setActiveModule] = useState<ModuleType>('singularity');
@@ -26,13 +26,13 @@ export function CarbonShell() {
       case 'vanguard':
         return <Argus />;
       case 'sentinel':
-        return <Chakravyuh />;
+        return <Wargame />;
       case 'oddity':
         return <Oddity />;
       case 'argus':
         return <Argus />;
-      case 'chakravyuh':
-        return <Chakravyuh />;
+      case 'wargame':
+        return <Wargame />;
       default:
         return <Box p="xl">Select a module</Box>;
     }
